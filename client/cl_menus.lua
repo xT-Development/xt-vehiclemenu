@@ -129,6 +129,22 @@ exports('windowsMenu', windowsMenu)
 
 -- Lights Menu --
 local function lightsMenu(veh)
+    local lightOptions = {}
+
+    lightOptions[#lightOptions+1] = {
+        label = 'Interior Light',
+        args = { type = 'interior' },
+        close = false
+    }
+
+    if GetPedInVehicleSeat(GetVehiclePedIsIn(cache.ped), -1) == cache.ped then
+        lightOptions[#lightOptions+1] = {
+            label = 'Toggle Hazards',
+            args = { type = 'hazards' },
+            close = false
+        }
+    end
+
     lib.registerMenu({
         id = 'veh_lights_menu',
         title = 'Vehicle Lights',
@@ -138,10 +154,7 @@ local function lightsMenu(veh)
                 lib.showMenu('veh_menu')
             end
         end,
-        options = {
-            { label = 'Interior Light', args = { type = 'interior' }, close = false },
-            { label = 'Toggle Hazards', args = { type = 'hazards' }, close = false  },
-        }
+        options = lightOptions
     }, function(selected, scrollIndex, args)
         if args.type == 'interior' then
             toggleInteriorLight(veh)
