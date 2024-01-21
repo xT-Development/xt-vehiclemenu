@@ -40,10 +40,11 @@ exports('seatsMenu', seatsMenu)
 local function doorsMenu(veh)
     local menuOptions = {}
     local doorsCount = GetNumberOfVehicleDoors(veh)
-    for x = 0, (doorsCount - 1) do
-        local isDisabled = ((IsVehicleDoorDamaged(veh, x) == false) and (DoesVehicleHaveDoor(veh, x) == 1))
+    for x = 0, #bones.doors do
+        local hasDoor = GetIsDoorValid(veh, x)
+        local isDamaged = IsVehicleDoorDamaged(veh, x)
 
-        if not isDisabled then
+        if hasDoor and not isDamaged then
             menuOptions[#menuOptions+1] = {
                 label = bones.doors[x],
                 icon = 'fas fa-door-open',
@@ -75,9 +76,10 @@ local function windowsMenu(veh)
     local menuOptions = {}
     local doorsCount = GetNumberOfVehicleDoors(veh)
     for x = 0, (doorsCount - 3) do
-        local isDisabled = ((IsVehicleDoorDamaged(veh, x) == false) and (DoesVehicleHaveDoor(veh, x) == 1))
+        local hasDoor = GetIsDoorValid(veh, x)
+        local isDamaged = IsVehicleDoorDamaged(veh, x)
 
-        if not isDisabled then
+        if hasDoor and not isDamaged then
             menuOptions[#menuOptions+1] = {
                 label = bones.doors[x],
                 icon = 'fas fa-up-down',
